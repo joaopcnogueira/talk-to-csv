@@ -6,7 +6,7 @@ import streamlit as st
 import db_utils
 import openai_utils
 
-st.title("Faça consultas SQL em Português")
+st.title("Faça Consultas SQL em Português")
 openai.api_key = os.environ["OPENAI_API_KEY"]
 
 uploaded_file = st.file_uploader("Faça upload do arquivo csv", type=".csv", accept_multiple_files=False)
