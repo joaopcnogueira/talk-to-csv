@@ -1,0 +1,4 @@
+openai
+sqlalchemy
+pandas
+streamlit
