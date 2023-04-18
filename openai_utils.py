@@ -50,7 +50,7 @@ def send_to_openai(prompt):
         string: Response from OpenAI
     """
     response = openai.Completion.create(
-        engine="code-davinci-002",
+        engine="text-davinci-003",
         prompt=prompt,
         temperature=0,
         max_tokens=500,
