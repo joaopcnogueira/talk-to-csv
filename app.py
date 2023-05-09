@@ -8,7 +8,15 @@ from langchain.agents import create_pandas_dataframe_agent
 
 
 st.title("Talk to CSV")
-openai.api_key = os.environ["OPENAI_API_KEY"]
+
+user_openai_api_key = st.sidebar.text_input(
+    label="#### Your OpenAI API key 👇",
+    placeholder="Paste your openAI API key, sk-",
+    type="password"
+)
+
+if user_openai_api_key:
+    openai.api_key = user_openai_api_key
 
 st.info("Make sure the name of the columns does not have spaces or special characters.")
 uploaded_file = st.file_uploader("Upload your file here", type=".csv", accept_multiple_files=False)
