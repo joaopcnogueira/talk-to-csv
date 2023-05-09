@@ -15,8 +15,7 @@ user_openai_api_key = st.sidebar.text_input(
     type="password"
 )
 
-if user_openai_api_key:
-    openai.api_key = user_openai_api_key
+os.environ["OPENAI_API_KEY"] = user_openai_api_key
 
 st.info("Make sure the name of the columns does not have spaces or special characters.")
 uploaded_file = st.file_uploader("Upload your file here", type=".csv", accept_multiple_files=False)
@@ -42,6 +41,10 @@ with st.form("query_form"):
 
    submitted = st.form_submit_button("Submit")
    if submitted:
-        agent = create_pandas_dataframe_agent(OpenAI(temperature=0), df, verbose=True)       
-        result = agent.run(user_input)
-        st.write(result)
+        try:
+            openai.api_key = user_openai_api_key
+            agent = create_pandas_dataframe_agent(OpenAI(temperature=0), df, verbose=True)       
+            result = agent.run(user_input)
+            st.write(result)
+        except Exception as e:
+            st.error("Please, provide your OpenAI API key above.")
