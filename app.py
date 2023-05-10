@@ -1,10 +1,10 @@
 import os
-import openai
 import pandas as pd
 import streamlit as st
 
-from langchain.llms import OpenAI
-from langchain.agents import create_pandas_dataframe_agent
+from pandasai import PandasAI
+from pandasai.llm.openai import OpenAI
+import matplotlib.pyplot as plt
 
 
 st.title("Talk to CSV")
@@ -42,9 +42,16 @@ with st.form("query_form"):
    submitted = st.form_submit_button("Submit")
    if submitted:
         try:
-            openai.api_key = user_openai_api_key
-            agent = create_pandas_dataframe_agent(OpenAI(temperature=0), df, verbose=True)       
-            result = agent.run(user_input)
-            st.write(result)
+            with st.spinner('Running ...'):
+                llm = OpenAI(api_token=user_openai_api_key, temperature=0)
+                pandas_ai = PandasAI(llm)
+                result = pandas_ai.run(df, prompt=user_input)
+
+                fig = plt.gcf()
+                if fig.get_axes():
+                    st.pyplot(fig)
+
+                st.write(result)
+
         except Exception as e:
             st.error("Please, provide your OpenAI API key above.")
