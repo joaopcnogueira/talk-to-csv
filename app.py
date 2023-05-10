@@ -42,9 +42,10 @@ with st.form("query_form"):
    submitted = st.form_submit_button("Submit")
    if submitted:
         try:
-            openai.api_key = user_openai_api_key
-            agent = create_pandas_dataframe_agent(OpenAI(temperature=0), df, verbose=True)       
-            result = agent.run(user_input)
-            st.write(result)
+            with st.spinner('Running ...'):
+                openai.api_key = user_openai_api_key
+                agent = create_pandas_dataframe_agent(OpenAI(temperature=0), df, verbose=True)       
+                result = agent.run(user_input)
+                st.write(result)
         except Exception as e:
             st.error("Please, provide your OpenAI API key above.")
